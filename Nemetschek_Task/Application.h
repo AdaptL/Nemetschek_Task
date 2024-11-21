@@ -1,4 +1,5 @@
 #pragma once
+#include "ConsoleManager.h"
 class Application
 {
 public:
@@ -12,5 +13,8 @@ public:
 
 	~Application();
 private:
+	ConsoleManager* m_consoleManager;
+
+	bool HandleInput(const std::string& input);
 };
 
