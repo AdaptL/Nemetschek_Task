@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Nemetschek_Task/InputHandler.cpp
+/Nemetschek_Task/InputHandler.h
+/Nemetschek_Task/Nemetschek_Task.vcxproj
+/Nemetschek_Task/Nemetschek_Task.vcxproj.filters

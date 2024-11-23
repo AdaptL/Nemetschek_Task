@@ -2,51 +2,56 @@
 #include <iostream>
 #include "Application.h"
 
-Application::Application() : m_consoleManager(new ConsoleManager())
+Application::Application() : m_console(new IOManager())
 {}
 
 void Application::Run()
 {
     std::string input;
 
-    this->m_consoleManager->Initial();
+    m_console->GetOutput().Initial();
 
     while (true)
     {
-        input = this->m_consoleManager->GetUserInput();
-        
-        if (!HandleInput(input))
+        m_console->GetOutput().CustomMsg(">", false);
+
+        input     = m_console->GetInput().GetUserInput();
+
+        if (!ExecuteLogic(input))
             break;
     }
 }
 
-Application::~Application()
+bool Application::ExecuteLogic(const std::string& input)
 {
-    delete m_consoleManager;
+    using InputType = InputHandler::INPUT_TYPE;
+
+    InputType inputType;
+    inputType = m_console->GetInput().GetUserInputType(input);
+
+    if (inputType == InputType::INVALID)
+        m_console->GetOutput().ErrMsg("Please enter valid input! Type (help) for options.");
+
+    switch (inputType)
+    {
+    case InputType::CREATE:
+        break;
+    case InputType::PRINT:
+        break;
+    case InputType::HELP:
+        m_console->GetOutput().Options();
+        break;
+    case InputType::EXIT:
+        return false;
+        break;
+    default:
+        break;
+    }
+
+    return true;
 }
 
-bool Application::HandleInput(const std::string& input)
+Application::~Application()
 {
-    if (input == "exit")
-    {
-        return false;
-    }
-    else if (input == "help")
-    {
-        this->m_consoleManager->Options();
-        return true;
-    }
-    else if (input == "print")
-    {
-        //for each screen, get it's string info and put it in the console manager Custom method.
-        return true;
-    }
-    else if (input.find("create") != std::string::npos)
-    {
-        //handle creation of each scree, add them to the vector of screens.
-        return true;
-    }
-
-    this->m_consoleManager->ErrMsg("Please enter valid input! Type (help) for options.");
-    return true;
+    delete m_console;
 }
