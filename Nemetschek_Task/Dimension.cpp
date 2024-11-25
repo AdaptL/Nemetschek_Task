@@ -70,7 +70,7 @@ unsigned Dimension::ConvertHeightToAspectRatio() const
     return m_height / gcd;
 }
 
-void Dimension::SetWidth(unsigned width, Units unit = Units::MILLIMETER)
+void Dimension::SetWidth(unsigned width, Units unit)
 {
     if (m_ratio)
     {
@@ -81,7 +81,7 @@ void Dimension::SetWidth(unsigned width, Units unit = Units::MILLIMETER)
     m_width = ConvertToMillimetres(width, unit);
 }
 
-void Dimension::SetHeight(unsigned height, Units unit = Units::MILLIMETER)
+void Dimension::SetHeight(unsigned height, Units unit)
 {
     if (m_ratio)
     {
