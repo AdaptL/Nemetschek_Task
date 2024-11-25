@@ -44,4 +44,6 @@ void DeleteApplication(Application* app)
 {
     if (app != nullptr)
         delete app;
+
+    app = nullptr;
 }
