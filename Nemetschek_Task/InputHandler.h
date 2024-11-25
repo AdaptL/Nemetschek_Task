@@ -22,7 +22,7 @@ public:
 	InputHandler() = default;
 
 	Dimension   GetDimensionsFromInput(std::string width, std::string height) const;
-	std::string GetUserInput() const;
+	std::string GetUserInput(bool removeSpace = true, bool lower = true) const;
 	INPUT_TYPE  GetUserInputType(const std::string& input) const;
 
 	~InputHandler() = default;

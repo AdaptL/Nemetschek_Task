@@ -1,7 +1,8 @@
-#include "Dimension.h"
 #include <stdexcept>
 #include <sstream>
 #include <numeric>
+#include "Dimension.h"
+
 
 Dimension::Dimension()
     : m_width(0), m_height(0), m_currentUnit(Units::MILLIMETER), m_ratio(nullptr)

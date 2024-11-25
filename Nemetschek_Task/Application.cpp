@@ -46,28 +46,32 @@ bool Application::ExecuteLogic(const std::string& input)
     {
     case InputType::CREATE:
         
-        if(!CreateObject())
+        if (!CreateObject())
             outputHandler.ErrMsg("Failed to create object, please try again.");
-
+        else
+            outputHandler.CustomMsg("Successfully created object! Type (print) to see it's properties!");
         break;
     case InputType::PRINT:
 
         if (m_objects.empty())
         {
-            outputHandler.CustomMsg("No created screens yet!", true);
+            outputHandler.CustomMsg("No created screens yet!");
             break;
         }
 
         for (const auto& obj : m_objects)
             outputHandler.PrintDataObject(*obj);
-
         break;
     case InputType::HELP:
+
         outputHandler.Options();
         break;
     case InputType::EXIT:
         return false;
+    case InputType::INVALID:
+        break;
     default:
+        throw std::invalid_argument("Unknown input type detected!");
         break;
     }
 
@@ -82,38 +86,21 @@ bool Application::CreateObject()
     std::string televisionStr = "television";
     std::string ledStr        = "ledwall";
 
-    auto normalizeString = [](const std::string& str)
-    {
-        std::string result;
-        for (char ch : str)
-        {
-            if (!std::isspace(ch))
-            {
-                result.push_back(std::tolower(ch));
-            }
-        }
-        return result;
-    };
-
-    outputHandler.CustomMsg("Enter desired screen type! Types: <LedWall>/<Television>", true);
+    outputHandler.CustomMsg("Enter desired screen type! Types: <LedWall>/<Television>");
     std::string input = inputHandler.GetUserInput();
-    
+
     while (input != televisionStr && input != ledStr)
     {
-        outputHandler.CustomMsg("Please enter a valid screen type! Types: <LedWall>/<Television>", true);
+        outputHandler.CustomMsg("Please enter a valid screen type! Types: <LedWall>/<Television>");
         input = inputHandler.GetUserInput();
     }
 
     if (input == televisionStr)
-    {
         m_objects.push_back(ScreenFactory::CreateTelevision(inputHandler,
                                                             outputHandler));
-    }
     else
-    {
         m_objects.push_back(ScreenFactory::CreateLedWall(inputHandler,
             outputHandler));
-    }
 
     auto it = m_objects.end() - 1;
 
@@ -129,4 +116,10 @@ Application::~Application()
         delete m_console;
 
     m_console = nullptr;
+
+    for (auto* ptr : m_objects)
+    {
+        delete ptr; 
+    }
+    m_objects.clear();  
 }

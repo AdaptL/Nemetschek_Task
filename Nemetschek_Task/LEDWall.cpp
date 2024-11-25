@@ -1,14 +1,18 @@
 #include <stdexcept>
 #include "LEDWall.h"
 
-LEDWall::LEDWall(const Dimension& panelSize, GenerationStrategy* strategy)
-	:m_panelSize(new Dimension(panelSize)), m_strategy(strategy)
+LEDWall::LEDWall(const Dimension& panelSize, const Dimension& maxSizeOrRatio, GenerationStrategy* strategy)
+	: Screen(), m_panelSize(new Dimension(panelSize))
 {
-	if (!m_panelSize)
+	this->SetStrategy(strategy);
+
+	if (!this->m_strategy)
+		throw std::runtime_error("Failed to initialize strategy for LEDWall!");
+
+	if (!this->m_panelSize)
 		throw std::runtime_error("Failed to initialize panel size for LEDWall!");
 
-	if(!m_strategy)
-		throw std::runtime_error("Failed to initialize strategy for LEDWall!");
+	this->SetDimensions(maxSizeOrRatio);
 }
 
 void LEDWall::SetStrategy(GenerationStrategy* strategy)

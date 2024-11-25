@@ -46,11 +46,13 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
             result.second = Dimension::Units::CENTIMETER;
         else if (unitPart == METER_STR)
             result.second = Dimension::Units::METER;
+        else if(unitPart.empty())
+            result.second = Dimension::Units::MILLIMETER;
         else
             throw std::invalid_argument("Invalid unit: must be 'mm', 'cm', or 'm'.");
 
         return result;
-        };
+    };
 
     auto widthParsed  = parseDimension(width);
     auto heightParsed = parseDimension(height);
@@ -58,13 +60,32 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
     return Dimension(widthParsed.first, heightParsed.first, widthParsed.second);
 }
 
-std::string InputHandler::GetUserInput() const
+std::string InputHandler::GetUserInput(bool removeSpace, bool lower) const
 {
     std::string input;
     do
     {
         std::getline(std::cin, input);
+
     } while (input.empty());
+
+    auto normalizeInputString = [removeSpace,lower](const std::string& str)
+    {
+        std::string result;
+
+        for (char ch : str)
+        {
+            auto normalizedCh = lower ? std::tolower(ch) : ch;
+
+            if (removeSpace && std::isspace(ch))
+                continue;
+            
+            result.push_back(std::tolower(ch));
+        }
+        return result;
+    };
+
+    input = normalizeInputString(input);
 
     return input;
 }

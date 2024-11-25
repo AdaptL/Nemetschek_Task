@@ -30,7 +30,7 @@ public:
 	void Initial() const;
 	void Options() const;
 	void PrintDataObject(const IDataObject& obj);
-	void CustomMsg(const std::string& msg, bool endl) const;
+	void CustomMsg(const std::string& msg, bool endl = true) const;
 	void ErrMsg(const std::string& msg) const;
 
 	~OutputHandler();

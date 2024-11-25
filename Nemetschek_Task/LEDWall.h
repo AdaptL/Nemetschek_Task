@@ -5,7 +5,8 @@
 class LEDWall : public Screen
 {
 public:
-    LEDWall(const Dimension& panelSize, GenerationStrategy* strategy);
+    LEDWall(const Dimension& panelSize,const Dimension& maxSizeOrRatio, 
+            GenerationStrategy* strategy);
 
     void SetStrategy(GenerationStrategy* strategy);
 

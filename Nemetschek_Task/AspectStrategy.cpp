@@ -1,5 +1,5 @@
-#include "AspectStrategy.h"
 #include <stdexcept>
+#include "AspectStrategy.h"
 
 Dimension AspectStrategy::GenerateWallDimension(const Dimension& panelSize,
                                                 const Dimension& aspectRatio) const
