@@ -101,27 +101,20 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
 
     if (std::regex_match(userInput, match, dim_regex))
     {
-        if (i + 1 < match.size())
-        {
-            firstDimension = match[i].str();
-
-            if (match[i + 1].str()[0] == '.' || match[i + 1].str()[0] == ',')
-                i++;
-            if(i + 1 < match.size())
-                firstDimension += match[i + 1].str();
-        }
+        size_t regexOffset = 2;
+        if (i + regexOffset < match.size())
+            firstDimension = match[i].str() + match[i + regexOffset].str();
         else
             return result;
 
-        i++;
-        i++;
+        i += regexOffset + 1;
 
         if (i + 1 < match.size())
-            secondDimension = match[i].str() + match[i + 1].str();
+            secondDimension = match[i].str() + match[i + regexOffset].str();
         else
             return result;
 
-        result.first  = firstDimension;
+        result.first = firstDimension;
         result.second = secondDimension;
 
         return result;
