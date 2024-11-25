@@ -7,7 +7,15 @@
 class ScreenFactory
 {
 public:
-	typedef std::pair<std::string, std::string> RawDimensions;
+	struct RawDimensions
+	{
+		RawDimensions(std::string first, std::string second, bool isAspect)
+			: first(first), second(second), isAspect(isAspect) {}
+
+		std::string first;
+		std::string second;
+		bool isAspect;
+	};
 
 	static Television* CreateTelevision(InputHandler& input, OutputHandler& output);
 	static LEDWall*    CreateLedWall(InputHandler& input, OutputHandler& output);

@@ -11,12 +11,19 @@ Television* ScreenFactory::CreateTelevision(InputHandler& input, OutputHandler& 
     output.CustomMsg("Available unit options - mm, cm, m. Default - mm",    true);
 
     auto rawDimensions = ExtractRawDimensions(input);
-    while (rawDimensions.first.empty() || rawDimensions.second.empty())
+    while (rawDimensions.first.empty() || rawDimensions.second.empty() || rawDimensions.isAspect)
     {
         output.CustomMsg("Please enter valid dimensions " + std::string(FORMAT_STR), true);
+        rawDimensions = ExtractRawDimensions(input);
     }
 
     Dimension   dimensions = input.GetDimensionsFromInput(rawDimensions.first, rawDimensions.second);
+    if (dimensions.isAspect())
+    {
+        output.ErrMsg("A screen of type Television cannot be created with aspect ratio dimensions!");
+        return nullptr;
+    }
+
     Television* television = new Television(dimensions);
 
     if (!television)
@@ -31,9 +38,19 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
     output.CustomMsg("or (Value):(Value)", true);
          
     auto rawPanelDimensions = ExtractRawDimensions(input);
-    while (rawPanelDimensions.first.empty() || rawPanelDimensions.second.empty())
+    while (rawPanelDimensions.first.empty() || rawPanelDimensions.second.empty() ||
+           rawPanelDimensions.isAspect)
     {
         output.CustomMsg("Please enter valid panel dimensions " + std::string(FORMAT_STR), true);
+        rawPanelDimensions = ExtractRawDimensions(input);
+    }
+
+    Dimension panelDimensions = input.GetDimensionsFromInput(rawPanelDimensions.first,
+                                rawPanelDimensions.second);
+    if (panelDimensions.isAspect())
+    {
+        output.ErrMsg("A screen of type Television cannot be created with aspect ratio dimensions!");
+        return nullptr;
     }
 
     output.CustomMsg("Enter desired max dimensions. " + std::string(FORMAT_STR), true);
@@ -43,15 +60,14 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
     while (rawDimensions.first.empty() || rawDimensions.second.empty())
     {
         output.CustomMsg("Please enter valid dimensions " + std::string(FORMAT_STR), true);
+        rawDimensions = ExtractRawDimensions(input);
     }
 
-    Dimension dimensions      = input.GetDimensionsFromInput(rawDimensions.first,
+    Dimension dimensions = input.GetDimensionsFromInput(rawDimensions.first,
                                                              rawDimensions.second);
-    Dimension panelDimensions = input.GetDimensionsFromInput(rawPanelDimensions.first,
-                                                             rawPanelDimensions.second);
 
     LEDWall* ledWall = nullptr;
-    if (dimensions.isAspect())
+    if (rawDimensions.isAspect)
         ledWall = new LEDWall(panelDimensions, dimensions, new AspectStrategy());
     else
         ledWall = new LEDWall(panelDimensions ,dimensions, new FreeformStrategy());
@@ -64,6 +80,8 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
 
 ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& input)
 {
+    RawDimensions result = RawDimensions("", "", false);
+
     std::regex dim_regex(R"(^(\d+)(mm|cm|m)\s*[xX]?\s*(\d+)(mm|cm|m)$)");
     std::regex aspect_ratio_regex(R"(^\s*(\d+)\s*[:]?\s*(\d+)\s*$)");
 
@@ -79,7 +97,7 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
         if (i + 1 < match.size())
             firstDimension = match[i].str() + match[i + 1].str();
         else
-            return { "", "" };
+            return result;
 
         i++;
         i++;
@@ -87,18 +105,27 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
         if (i + 1 < match.size())
             secondDimension = match[i].str() + match[i + 1].str();
         else
-            return { "", "" };
+            return result;
 
-        return { firstDimension, secondDimension };
+        result.first  = firstDimension;
+        result.second = secondDimension;
+
+        return result;
     }
     else if (std::regex_match(userInput, match, aspect_ratio_regex))
     {
         if (i + 1 < match.size())
         {
-            firstDimension = match[i].str() + match[i + 1].str();
-            return { firstDimension, secondDimension };
+            firstDimension  = match[i++].str();
+            secondDimension = match[i].str();
+
+            result.first    = firstDimension;
+            result.second   = secondDimension;
+            result.isAspect = true;
+
+            return result;
         }
     }
 
-    return { "", "" };
+    return result;
 }

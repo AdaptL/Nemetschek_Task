@@ -42,7 +42,9 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
 
         result.first = round(std::stod(valuePart));
 
-        if (unitPart == CENTIMETER_STR)
+        if (unitPart == MILLIMETER_STR)
+            result.second = Dimension::Units::MILLIMETER;
+        else if (unitPart == CENTIMETER_STR)
             result.second = Dimension::Units::CENTIMETER;
         else if (unitPart == METER_STR)
             result.second = Dimension::Units::METER;

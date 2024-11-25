@@ -31,7 +31,8 @@ void LEDWall::SetDimensions(const Dimension& maxSizeOrRatio)
 	if (!m_panelSize)
 		throw std::runtime_error("Panel size cannot be null when setting dimensions!");
 
-	Screen::SetDimensions(m_strategy->GenerateWallDimension(*m_panelSize, maxSizeOrRatio));
+	Dimension temp = m_strategy->GenerateWallDimension(*m_panelSize, maxSizeOrRatio);
+	Screen::SetDimensions(temp);
 }
 
 std::string LEDWall::ToString() const

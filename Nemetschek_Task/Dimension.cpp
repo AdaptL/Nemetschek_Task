@@ -102,7 +102,7 @@ unsigned Dimension::GetHeight() const
     if (m_ratio)
         return m_ratio->height;
 
-    return ConvertToUnit(m_width, m_currentUnit);
+    return ConvertToUnit(m_height, m_currentUnit);
 }
 
 unsigned Dimension::GetWidth(Units unit) const
