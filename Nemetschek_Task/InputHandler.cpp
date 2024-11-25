@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "InputHandler.h"
 
 const std::unordered_map<std::string, InputHandler::INPUT_TYPE> InputHandler::m_typeToStr =
@@ -8,6 +9,54 @@ const std::unordered_map<std::string, InputHandler::INPUT_TYPE> InputHandler::m_
     {"help",   INPUT_TYPE::HELP},
     {"exit",   INPUT_TYPE::EXIT}
 };
+
+Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string height) const
+{
+    auto parseDimension = [](const std::string& input) 
+        -> std::pair<unsigned, Dimension::Units>
+    {
+        auto result = std::make_pair(0, Dimension::Units::MILLIMETER);
+        std::string valuePart;
+        std::string unitPart;
+
+        size_t i = 0;
+
+        while (i < input.size() && 
+              (std::isdigit(input[i]) || input[i] == '.'))
+        {
+            valuePart += input[i++];
+        }
+
+        while (i < input.size() && std::isalpha(input[i]))
+        {
+            unitPart += input[i++];
+        }
+
+        valuePart.erase(remove_if(valuePart.begin(), valuePart.end(), ::isspace),
+                        valuePart.end());
+        unitPart.erase(remove_if(unitPart.begin(), unitPart.end(), ::isspace),
+                        unitPart.end());
+
+        if (valuePart.empty())
+            throw std::invalid_argument("Invalid input: missing numeric value.");
+
+        result.first = round(std::stod(valuePart));
+
+        if (unitPart == CENTIMETER_STR)
+            result.second = Dimension::Units::CENTIMETER;
+        else if (unitPart == METER_STR)
+            result.second = Dimension::Units::METER;
+        else
+            throw std::invalid_argument("Invalid unit: must be 'mm', 'cm', or 'm'.");
+
+        return result;
+        };
+
+    auto widthParsed  = parseDimension(width);
+    auto heightParsed = parseDimension(height);
+
+    return Dimension(widthParsed.first, heightParsed.first, widthParsed.second);
+}
 
 std::string InputHandler::GetUserInput() const
 {

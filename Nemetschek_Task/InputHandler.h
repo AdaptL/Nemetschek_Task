@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <unordered_map>
+#include "Dimension.h"
 
 class InputHandler
 {
@@ -20,6 +21,7 @@ public:
 
 	InputHandler() = default;
 
+	Dimension   GetDimensionsFromInput(std::string width, std::string height) const;
 	std::string GetUserInput() const;
 	INPUT_TYPE  GetUserInputType(const std::string& input) const;
 
