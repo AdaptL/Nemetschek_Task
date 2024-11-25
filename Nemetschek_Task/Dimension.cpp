@@ -21,6 +21,69 @@ Dimension::Dimension(const AspectRatio& ratio)
         throw std::runtime_error("Failed to initialize aspect ratio!");
 }
 
+Dimension::Dimension(const Dimension& other)
+    :
+    m_width(other.m_width),
+    m_height(other.m_height),
+    m_currentUnit(other.m_currentUnit),
+    m_ratio(other.m_ratio ? new AspectRatio(*other.m_ratio) : nullptr)
+{}
+
+Dimension& Dimension::operator=(const Dimension& other)
+{
+    if (this == &other)
+        return *this; 
+
+    this->m_width = other.m_width;
+    this->m_height = other.m_height;
+    this->m_currentUnit = other.m_currentUnit;
+
+    delete this->m_ratio;
+    this->m_ratio = other.m_ratio ? new AspectRatio(*other.m_ratio) : nullptr;
+
+    return *this;
+}
+
+Dimension::Dimension(Dimension&& other) noexcept
+    : m_width(other.m_width),
+    m_height(other.m_height),
+    m_currentUnit(other.m_currentUnit),
+    m_ratio(other.m_ratio)
+{
+    other.m_width = 0;
+    other.m_height = 0;
+    other.m_currentUnit = Units::MILLIMETER;
+    other.m_ratio = nullptr;
+}
+
+Dimension& Dimension::operator=(Dimension&& other) noexcept
+{
+    if (this == &other)
+        return *this;  
+
+    delete this->m_ratio;
+
+    m_width = other.m_width;
+    m_height = other.m_height;
+    m_currentUnit = other.m_currentUnit;
+    m_ratio = other.m_ratio;
+
+    other.m_width = 0;
+    other.m_height = 0;
+    other.m_currentUnit = Units::MILLIMETER;
+    other.m_ratio = nullptr;
+
+    return *this;
+}
+
+bool Dimension::isAspect() const
+{
+    if (m_ratio)
+        return true;
+
+    return false;
+}
+
 unsigned Dimension::GetWidth() const
 {
     if (m_ratio)
@@ -185,4 +248,6 @@ Dimension::~Dimension()
 {
     if (m_ratio != nullptr)
         delete m_ratio;
+
+    m_ratio = nullptr;
 }
