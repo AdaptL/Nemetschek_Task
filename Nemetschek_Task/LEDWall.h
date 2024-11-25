@@ -5,18 +5,17 @@
 class LEDWall : public Screen
 {
 public:
-    LEDWall(const Dimension& panelSize, GenerationStrategy strategy);
+    LEDWall(const Dimension& panelSize, GenerationStrategy* strategy);
 
     void SetStrategy(GenerationStrategy* strategy);
 
-    void GenerateWall(const Dimension& maxSizeOrRatio);
+    void SetDimensions(const Dimension& maxSizeOrRatio) override;
 
-    void SetDimensions(const Dimension& other);
+    virtual std::string ToString() const override;
 
-
-    ~LEDWall() override = default;
+    ~LEDWall() override;
 private:
-    Dimension m_panelSize;
+    Dimension*          m_panelSize;
     GenerationStrategy* m_strategy;
 };
 
