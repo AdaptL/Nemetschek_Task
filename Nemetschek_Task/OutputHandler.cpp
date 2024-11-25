@@ -9,9 +9,9 @@ OutputHandler::OutputHandler(std::string initialMsg) : m_initialMsg(initialMsg)
     m_inputsDesc = new DescriptionMap
     {
         {InputType::CREATE, "create - creates a new screen object. Screen types - TV, LED wall."},
-        {InputType::PRINT,  "print - prints all created screen objects"},
-        {InputType::HELP,   "help - display available options."},
-        {InputType::EXIT,   "exit - close the application."}
+        {InputType::PRINT,  "print  - prints all created screen objects"},
+        {InputType::HELP,   "help   - display available options."},
+        {InputType::EXIT,   "exit   - close the application."}
     };
 }
 
@@ -93,10 +93,20 @@ void OutputHandler::Initial() const
 
 void OutputHandler::Options() const
 {
+    std::cout << std::endl;
     for (const auto& option : *m_inputsDesc)
     {
         std::cout << option.second << std::endl;
     };
+    std::cout << std::endl;
+}
+
+void OutputHandler::PrintDataObject(const IDataObject& obj)
+{
+    std::cout << std::endl;
+
+    std::cout << obj.ToString();
+
     std::cout << std::endl;
 }
 
@@ -115,5 +125,8 @@ void OutputHandler::ErrMsg(const std::string& msg) const
 
 OutputHandler::~OutputHandler()
 {
-    delete m_inputsDesc;
+    if(m_inputsDesc != nullptr)
+        delete m_inputsDesc;
+
+    m_inputsDesc = nullptr;
 }

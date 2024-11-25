@@ -71,10 +71,28 @@ Dimension Screen::GetDimensions() const
 
 void Screen::SetDimensions(const Dimension& other)
 {
-	m_dimensions->SetUnits(other.GetUnits());
+	if (m_dimensions != nullptr)
+	{
+		m_dimensions->SetUnits(other.GetUnits());
 
-	m_dimensions->SetWidth(other.GetWidth());
-	m_dimensions->SetHeight(other.GetHeight());
+		m_dimensions->SetWidth(other.GetWidth());
+		m_dimensions->SetHeight(other.GetHeight());
+
+		if (other.isAspect())
+			m_dimensions->SetAspectRatio(Dimension::AspectRatio(other.GetWidth(), other.GetHeight()));
+
+		return;
+	}
+
+	m_dimensions = new Dimension(other);
+
+	if (!m_dimensions)
+		throw std::runtime_error("Failed to set dimensions of screen!");
+}
+
+std::string Screen::ToString() const
+{
+	return m_dimensions->ToString();
 }
 
 Screen::~Screen()

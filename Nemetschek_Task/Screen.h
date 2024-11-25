@@ -16,9 +16,10 @@ public:
 	Dimension GetDimensions() const;
 
 	virtual void SetDimensions(const Dimension& other);
+	virtual std::string ToString() const override;
 
 	virtual ~Screen();
-private:
+protected:
 	void InitDefaultDimension();
 
 	Dimension* m_dimensions;

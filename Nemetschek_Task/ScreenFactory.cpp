@@ -5,7 +5,7 @@ Television* ScreenFactory::CreateTelevision(InputHandler& input, OutputHandler& 
     return nullptr;
 }
 
-LEDWall* ScreenFactory::CreateLed(InputHandler& input, OutputHandler& output)
+LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output)
 {
     return nullptr;
 }

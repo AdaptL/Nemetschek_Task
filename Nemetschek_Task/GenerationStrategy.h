@@ -4,6 +4,7 @@
 class GenerationStrategy
 {
 public:
-    virtual Dimension GenerateWall(const Dimension& panelSize, const Dimension& maxSizeOrRatio) const = 0;
+    virtual Dimension GenerateWallDimension(const Dimension& panelSize,
+                                            const Dimension& maxSizeOrRatio) const = 0;
     virtual ~GenerationStrategy() = default;
 };

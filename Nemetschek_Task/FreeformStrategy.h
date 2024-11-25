@@ -4,7 +4,7 @@
 class FreeformStrategy : public GenerationStrategy
 {
 public:
-	Dimension GenerateWall(const Dimension& panelSize,
-		                   const Dimension& maxSize) const override;
+	Dimension GenerateWallDimension(const Dimension& panelSize,
+		                            const Dimension& maxSize) const override;
 };
 

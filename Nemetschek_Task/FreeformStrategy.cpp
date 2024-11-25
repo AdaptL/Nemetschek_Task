@@ -1,6 +1,6 @@
 #include "FreeformStrategy.h"
 
-Dimension FreeformStrategy::GenerateWall(const Dimension& panelSize, 
+Dimension FreeformStrategy::GenerateWallDimension(const Dimension& panelSize, 
                                          const Dimension& maxSize) const
 {
     unsigned cols = maxSize.GetWidth() / panelSize.GetWidth();

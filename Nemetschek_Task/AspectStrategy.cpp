@@ -1,7 +1,8 @@
 #include "AspectStrategy.h"
 #include <stdexcept>
 
-Dimension AspectStrategy::GenerateWall(const Dimension& panelSize, const Dimension& aspectRatio) const
+Dimension AspectStrategy::GenerateWallDimension(const Dimension& panelSize,
+                                                const Dimension& aspectRatio) const
 {
     unsigned unitWidth;
     unsigned unitHeight;
@@ -15,7 +16,7 @@ Dimension AspectStrategy::GenerateWall(const Dimension& panelSize, const Dimensi
     unitWidth  = aspectRatio.GetWidth();
     unitHeight = aspectRatio.GetHeight();
 
-    unsigned cols = panelSize.GetWidth() * unitWidth;
+    unsigned cols = panelSize.GetWidth()  * unitWidth;
     unsigned rows = panelSize.GetHeight() * unitHeight;
 
     unsigned wallWidth  = cols;

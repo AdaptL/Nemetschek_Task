@@ -1,5 +1,8 @@
 #pragma once
+#include <vector>
 #include "IOManager.h"
+#include "Screen.h"
+
 class Application
 {
 public:
@@ -15,8 +18,10 @@ public:
 
 	~Application();
 private:
-	IOManager* m_console;
+	std::vector<Screen*> m_objects;
+	IOManager*           m_console;
 
 	bool ExecuteLogic(const std::string& input);
+	bool CreateObject();
 };
 

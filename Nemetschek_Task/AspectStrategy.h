@@ -4,7 +4,7 @@
 class AspectStrategy : public GenerationStrategy
 {
 public:
-	Dimension GenerateWall(const Dimension& panelSize,
+	Dimension GenerateWallDimension(const Dimension& panelSize,
 		                   const Dimension& aspectRatio) const override;
 };
 

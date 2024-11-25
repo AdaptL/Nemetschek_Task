@@ -8,6 +8,6 @@ class ScreenFactory
 {
 public:
 	static Television* CreateTelevision(InputHandler& input, OutputHandler& output);
-	static LEDWall*    CreateLed(InputHandler& input, OutputHandler& output);
+	static LEDWall*    CreateLedWall(InputHandler& input, OutputHandler& output);
 };
 

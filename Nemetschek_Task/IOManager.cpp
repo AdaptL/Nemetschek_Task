@@ -22,6 +22,12 @@ OutputHandler& IOManager::GetOutput()
 
 IOManager::~IOManager()
 {
-    delete m_input;
-    delete m_output;
+    if(m_input != nullptr)
+        delete m_input;
+
+    if(m_output != nullptr)
+        delete m_output;
+
+    m_input  = nullptr;
+    m_output = nullptr;
 }
