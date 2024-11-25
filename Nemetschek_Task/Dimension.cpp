@@ -3,6 +3,10 @@
 #include <sstream>
 #include <numeric>
 
+Dimension::Dimension()
+    : m_width(0), m_height(0), m_currentUnit(Units::MILLIMETER), m_ratio(nullptr)
+{}
+
 Dimension::Dimension(unsigned width, unsigned height)
     : Dimension(width, height, Units::MILLIMETER) {}
 

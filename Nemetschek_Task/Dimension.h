@@ -16,7 +16,7 @@ public:
 		unsigned width;
 		unsigned height;
 	};
-	
+	Dimension();
 	Dimension(unsigned width, unsigned height);
 	Dimension(unsigned width, unsigned height, Units unitType);
 	Dimension(const AspectRatio& ratio);
