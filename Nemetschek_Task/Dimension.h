@@ -38,7 +38,7 @@ public:
 	unsigned GetHeight(Units unit) const;
 	Units    GetUnits()            const;
 
-	void SetWidth(unsigned width,   Units unit = Units::MILLIMETER);
+	void SetWidth(unsigned width, Units unit = Units::MILLIMETER);
 	void SetHeight(unsigned height, Units unit = Units::MILLIMETER);
 	void SetUnits(Units unit);
 	void SetAspectRatio(const AspectRatio& ratio);
