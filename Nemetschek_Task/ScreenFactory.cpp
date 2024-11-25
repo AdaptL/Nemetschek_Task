@@ -49,7 +49,7 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
                                 rawPanelDimensions.second);
     if (panelDimensions.isAspect())
     {
-        output.ErrMsg("A screen of type Television cannot be created with aspect ratio dimensions!");
+        output.ErrMsg("A panel cannot be created with aspect ratio dimensions!");
         return nullptr;
     }
 
@@ -64,11 +64,18 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
     }
 
     Dimension dimensions = input.GetDimensionsFromInput(rawDimensions.first,
-                                                             rawDimensions.second);
+                                                        rawDimensions.second);
 
     LEDWall* ledWall = nullptr;
+
     if (rawDimensions.isAspect)
-        ledWall = new LEDWall(panelDimensions, dimensions, new AspectStrategy());
+    {
+        Dimension aspectDimension = Dimension(Dimension::AspectRatio(dimensions.GetWidth(), dimensions.GetHeight()));
+
+        ledWall = new LEDWall(panelDimensions,
+                              aspectDimension,
+                              new AspectStrategy());
+    }
     else
         ledWall = new LEDWall(panelDimensions ,dimensions, new FreeformStrategy());
 
@@ -82,7 +89,7 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
 {
     RawDimensions result = RawDimensions("", "", false);
 
-    std::regex dim_regex(R"(^(\d+)(mm|cm|m)\s*[xX]?\s*(\d+)(mm|cm|m)$)");
+    std::regex dim_regex(R"(^(\d+(\.\d+)?)(mm|cm|m)\s*[xX]?\s*(\d+(\.\d+)?)(mm|cm|m)$)");
     std::regex aspect_ratio_regex(R"(^\s*(\d+)\s*[:]?\s*(\d+)\s*$)");
 
     std::string userInput = input.GetUserInput(false,true);
@@ -95,7 +102,14 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
     if (std::regex_match(userInput, match, dim_regex))
     {
         if (i + 1 < match.size())
-            firstDimension = match[i].str() + match[i + 1].str();
+        {
+            firstDimension = match[i].str();
+
+            if (match[i + 1].str()[0] == '.' || match[i + 1].str()[0] == ',')
+                i++;
+            if(i + 1 < match.size())
+                firstDimension += match[i + 1].str();
+        }
         else
             return result;
 

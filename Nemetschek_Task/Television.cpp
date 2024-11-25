@@ -11,5 +11,5 @@ Television::Television(const Dimension& other)
 
 std::string Television::ToString() const
 {
-    return "Television " + Screen::ToString();
+    return "Television: " + Screen::ToString();
 }

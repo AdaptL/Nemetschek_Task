@@ -1,4 +1,5 @@
 #include <iostream>
+#include <crtdbg.h>
 #include <cstdlib>
 #include "Application.h"
 
@@ -31,6 +32,7 @@ int main()
     }
 
     DeleteApplication(app);
+
 
     return EXIT_SUCCESS;
 }

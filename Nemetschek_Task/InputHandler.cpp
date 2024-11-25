@@ -22,7 +22,7 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
         size_t i = 0;
 
         while (i < input.size() && 
-              (std::isdigit(input[i]) || input[i] == '.'))
+              (std::isdigit(input[i]) || input[i] == '.' || input[i] == ','))
         {
             valuePart += input[i++];
         }
