@@ -106,7 +106,7 @@ bool Application::CreateObject()
 
     if (input == televisionStr || input == "tv")
         newScreen = ScreenFactory::CreateTelevision(inputHandler, outputHandler);
-    else
+    else if(input == ledStr)
         newScreen = ScreenFactory::CreateLedWall(inputHandler, outputHandler);
 
     if (newScreen != nullptr)
