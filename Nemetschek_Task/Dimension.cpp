@@ -83,6 +83,21 @@ Dimension& Dimension::operator=(Dimension&& other) noexcept
     return *this;
 }
 
+unsigned Dimension::ConvertUnitValue(unsigned value, Units from, Units to)
+{
+    unsigned result = 0;
+
+    if (from != Units::MILLIMETER)
+        result = ConvertToMillimetres(value, from);
+
+    if (to == Units::MILLIMETER)
+        return result;
+
+    result = ConvertToUnit(value, to);
+
+    return result;
+}
+
 bool Dimension::isAspect() const
 {
     if (m_ratio != nullptr)
@@ -209,7 +224,7 @@ std::string Dimension::ToString() const
     return result.str();
 }
 
-unsigned Dimension::ConvertToUnit(unsigned value, Units unit) const
+unsigned Dimension::ConvertToUnit(unsigned value, Units unit)
 {
     switch (unit)
     {
@@ -224,7 +239,7 @@ unsigned Dimension::ConvertToUnit(unsigned value, Units unit) const
     }
 }
 
-unsigned Dimension::ConvertToMillimetres(unsigned value, Units unit) const
+unsigned Dimension::ConvertToMillimetres(unsigned value, Units unit)
 {
     switch (unit)
     {

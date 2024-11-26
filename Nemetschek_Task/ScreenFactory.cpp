@@ -9,7 +9,7 @@ const char* ScreenFactory::FORMAT_STR = "Format: (Value)(unitStr) x / : (Value)(
 Dimension ScreenFactory::GetValidDimensions(InputHandler& input, OutputHandler& output, const std::string& prompt)
 {
     output.CustomMsg(prompt + " " + std::string(FORMAT_STR), true);
-    output.CustomMsg("Available unit options - mm, cm, m. Default - mm", true);
+    output.CustomMsg("Available unit options - mm, cm, m.", true);
 
     auto rawDimensions = ExtractRawDimensions(input);
     while (rawDimensions.first.empty()  || 

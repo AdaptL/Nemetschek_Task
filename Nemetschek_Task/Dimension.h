@@ -27,6 +27,8 @@ public:
 	Dimension& operator=(const Dimension& other);
 	Dimension& operator=(Dimension&& other) noexcept;
 
+	static unsigned ConvertUnitValue(unsigned value, Units from, Units to);
+
 	bool isAspect() const;
 
 	unsigned ConvertWidthToAspectRatio()  const;
@@ -47,8 +49,8 @@ public:
 
 	~Dimension();
 private:
-	unsigned ConvertToMillimetres(unsigned value, Units unit) const;
-	unsigned ConvertToUnit(unsigned value, Units unit)        const;
+	static unsigned ConvertToMillimetres(unsigned value, Units unit);
+	static unsigned ConvertToUnit(unsigned value, Units unit);
 
 	unsigned GCD(unsigned a, unsigned b) const;
 

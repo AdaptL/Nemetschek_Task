@@ -41,7 +41,10 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
         if (valuePart.empty())
             throw std::invalid_argument("Invalid input: missing numeric value.");
 
-        result.first = round(std::stod(valuePart));
+        std::string dotValue = valuePart;
+        std::replace(dotValue.begin(), dotValue.end(), ',', '.');
+
+        result.first = round(std::stod(dotValue));
 
         if (result.first < 0)
             throw std::invalid_argument("Invalid input: failed conversion.");
@@ -63,6 +66,13 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
 
     auto widthParsed  = parseDimension(width);
     auto heightParsed = parseDimension(height);
+
+    if (widthParsed.second != heightParsed.second)
+    {
+        heightParsed.first = Dimension::ConvertUnitValue(heightParsed.first,
+                                                         heightParsed.second,
+                                                         widthParsed.second);
+    }
 
     return Dimension(widthParsed.first, heightParsed.first, widthParsed.second);
 }

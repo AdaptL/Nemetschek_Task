@@ -93,14 +93,14 @@ bool Application::CreateObject()
     std::string televisionStr = "television";
     std::string ledStr        = "ledwall";
 
-    outputHandler.CustomMsg("Enter desired screen type! Types: <LedWall>/<Television>");
+    outputHandler.CustomMsg("Enter desired screen type! Types: <LedWall>/<TV>");
     std::string input = inputHandler.GetUserInput();
 
     while (input != televisionStr && 
            input != ledStr        && 
            input != "tv")
     {
-        outputHandler.CustomMsg("Please enter a valid screen type! Types: <LedWall>/<Television>");
+        outputHandler.CustomMsg("Please enter a valid screen type! Types: <LedWall>/<TV>");
         input = inputHandler.GetUserInput();
     }
 
