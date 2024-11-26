@@ -75,8 +75,8 @@ void Screen::SetDimensions(const Dimension& other)
 	{
 		m_dimensions->SetUnits(other.GetUnits());
 
-		m_dimensions->SetWidth(other.GetWidth());
-		m_dimensions->SetHeight(other.GetHeight());
+		m_dimensions->SetWidth(other.GetWidth(other.GetUnits()));
+		m_dimensions->SetHeight(other.GetHeight(other.GetUnits()));
 
 		if (other.isAspect())
 			m_dimensions->SetAspectRatio(Dimension::AspectRatio(other.GetWidth(), other.GetHeight()));

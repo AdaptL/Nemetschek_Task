@@ -18,6 +18,8 @@ public:
 private:
     Dimension*          m_panelSize;
     GenerationStrategy* m_strategy;
+    unsigned rows;
+    unsigned columns;
 };
 
 

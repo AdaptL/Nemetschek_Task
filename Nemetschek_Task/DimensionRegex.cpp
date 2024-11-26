@@ -2,7 +2,7 @@
 
 std::smatch DimensionRegex::MatchDimensionRegex(const std::string& input)
 {
-    std::regex dim_regex(R"(^(\d+([.,]\d+)?)(mm|cm|m)\s*[xX:]\s*(\d+([.,]\d+)?)(mm|cm|m)$)");
+    std::regex dim_regex(R"(^(\d+([.,]\d+)?)(mm|cm|m)\s*[xX]\s*(\d+([.,]\d+)?)(mm|cm|m)$)");
     std::smatch match;
     std::regex_match(input, match, dim_regex);
     return match;

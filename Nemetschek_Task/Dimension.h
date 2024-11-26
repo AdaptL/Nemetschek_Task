@@ -12,9 +12,10 @@ public:
 
 	struct AspectRatio
 	{
-		AspectRatio(unsigned w, unsigned h) : width(w), height(h) {}
-		unsigned width;
-		unsigned height;
+		AspectRatio(unsigned cols, unsigned rows) : columns(cols), rows(rows) {}
+
+		unsigned columns;
+		unsigned rows;   
 	};
 	Dimension();
 	Dimension(unsigned width, unsigned height);
@@ -47,7 +48,7 @@ public:
 
 	std::string ToString() const override;
 
-	~Dimension();
+	virtual ~Dimension();
 private:
 	static unsigned ConvertToMillimetres(unsigned value, Units unit);
 	static unsigned ConvertToUnit(unsigned value, Units unit);

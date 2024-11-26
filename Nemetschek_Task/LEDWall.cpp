@@ -2,7 +2,7 @@
 #include "LEDWall.h"
 
 LEDWall::LEDWall(const Dimension& panelSize, const Dimension& maxSizeOrRatio, GenerationStrategy* strategy)
-	: Screen(), m_panelSize(new Dimension(panelSize))
+	: Screen(), m_panelSize(new Dimension(panelSize)), rows(0), columns(0)
 {
 	this->SetStrategy(strategy);
 
@@ -33,11 +33,19 @@ void LEDWall::SetDimensions(const Dimension& maxSizeOrRatio)
 
 	Dimension temp = m_strategy->GenerateWallDimension(*m_panelSize, maxSizeOrRatio);
 	Screen::SetDimensions(temp);
+	columns = temp.GetHeight();
+	rows    = temp.GetWidth();
 }
 
 std::string LEDWall::ToString() const
 {
-	return "LedWall: " + Screen::ToString() + ", Panel " + m_panelSize->ToString();
+	std::string screenStr      = "LedWall: " + Screen::ToString();
+	std::string panelStr       = ", Panel " + m_panelSize->ToString();
+	std::string columnsRowsStr = " ( Rows:" + std::to_string(rows) + 
+		                         " , " + "columns:" + std::to_string(columns) + " )";
+
+
+	return screenStr + columnsRowsStr + panelStr;
 }
 
 LEDWall::~LEDWall()

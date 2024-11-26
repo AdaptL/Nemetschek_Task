@@ -4,7 +4,7 @@
 #include "FreeformStrategy.h"
 #include "DimensionRegex.h"
 
-const char* ScreenFactory::FORMAT_STR = "Format: <Value><unitStr> (x,:) <Value><unitStr> (Ex: 100mmx100mm)";
+const char* ScreenFactory::FORMAT_STR = "Format: <Value><unitStr> x <Value><unitStr> (Ex: 100mmx100mm)";
 
 Dimension ScreenFactory::GetValidDimensions(InputHandler& input, OutputHandler& output, const std::string& prompt)
 {
@@ -65,7 +65,7 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
         Dimension panelDimensions = GetValidDimensions(input, output, "Enter panel dimensions.");
 
         output.CustomMsg("Enter desired max dimensions. " + std::string(FORMAT_STR), true);
-        output.CustomMsg("or (Value):(Value) for aspect ratio", true);
+        output.CustomMsg("or <Value>:<Value> for aspect ratio", true);
 
         auto rawMaxDimensions = ExtractRawDimensions(input);
         while (rawMaxDimensions.first.empty() || rawMaxDimensions.second.empty())
@@ -79,6 +79,12 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
         LEDWall* ledWall;
         if (rawMaxDimensions.isAspect)
         {
+            if (maxDimensions.GetHeight() == 0 || maxDimensions.GetWidth() == 0)
+            {
+                output.ErrMsg("Aspect ratios cannot be zero!");
+                return nullptr;
+            }
+
             Dimension aspectDimension(Dimension::AspectRatio(maxDimensions.GetWidth(),
                 maxDimensions.GetHeight()));
             ledWall = new LEDWall(panelDimensions, maxDimensions, new AspectStrategy());

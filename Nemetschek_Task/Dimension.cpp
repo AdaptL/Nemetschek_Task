@@ -111,7 +111,7 @@ bool Dimension::isAspect() const
 unsigned Dimension::GetWidth() const
 {
     if (m_ratio != nullptr)
-        return m_ratio->width;
+        return m_ratio->columns;
 
     return ConvertToUnit(m_width, m_currentUnit);
 }
@@ -119,24 +119,18 @@ unsigned Dimension::GetWidth() const
 unsigned Dimension::GetHeight() const
 {
     if (m_ratio != nullptr)
-        return m_ratio->height;
+        return m_ratio->rows;
 
     return ConvertToUnit(m_height, m_currentUnit);
 }
 
 unsigned Dimension::GetWidth(Units unit) const
 {
-    if (m_ratio != nullptr)
-        return m_ratio->width;
-
     return ConvertToUnit(m_width, unit);
 }
 
 unsigned Dimension::GetHeight(Units unit) const
 {
-    if (m_ratio != nullptr)
-        return m_ratio->height;
-
     return ConvertToUnit(m_height, unit);
 }
 
@@ -161,7 +155,7 @@ void Dimension::SetWidth(unsigned width, Units unit)
 {
     if (m_ratio != nullptr) 
     {
-        m_ratio->width = width;
+        m_ratio->columns = width;
         return;
     }
     
@@ -172,7 +166,7 @@ void Dimension::SetHeight(unsigned height, Units unit)
 {
     if (m_ratio != nullptr)
     {
-        m_ratio->height = height;
+        m_ratio->rows = height;
         return;
     }
     m_height = ConvertToMillimetres(height, unit);
@@ -193,8 +187,8 @@ void Dimension::SetAspectRatio(const AspectRatio& ratio)
         return;
     }
 
-    this->m_ratio->width  = ratio.width;
-    this->m_ratio->height = ratio.height;
+    this->m_ratio->columns = ratio.columns;
+    this->m_ratio->rows    = ratio.rows;
 }
 
 std::string Dimension::ToString() const

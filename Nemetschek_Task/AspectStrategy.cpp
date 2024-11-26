@@ -4,6 +4,11 @@
 Dimension AspectStrategy::GenerateWallDimension(const Dimension& panelSize,
                                                 const Dimension& aspectRatio) const
 {
+    if (panelSize.GetWidth() == 0 || panelSize.GetHeight() == 0)
+        throw std::invalid_argument("Invalid panel size: Width or height cannot be zero.");
+
+    Dimension result;
+
     unsigned unitWidth;
     unsigned unitHeight;
 
@@ -12,15 +17,18 @@ Dimension AspectStrategy::GenerateWallDimension(const Dimension& panelSize,
         unitWidth  = aspectRatio.ConvertWidthToAspectRatio();
         unitHeight = aspectRatio.ConvertHeightToAspectRatio();
     }
-        
-    unitWidth  = aspectRatio.GetWidth();
-    unitHeight = aspectRatio.GetHeight();
+    else
+    {
+        unitWidth  = aspectRatio.GetWidth();
+        unitHeight = aspectRatio.GetHeight();
+    }
+       
+    unsigned wallWidth  = panelSize.GetWidth()  * unitWidth;
+    unsigned wallHeight = panelSize.GetHeight() * unitHeight;
 
-    unsigned cols = panelSize.GetWidth()  * unitWidth;
-    unsigned rows = panelSize.GetHeight() * unitHeight;
+    result = Dimension(wallWidth, wallHeight);
 
-    unsigned wallWidth  = cols;
-    unsigned wallHeight = rows;
+    result.SetAspectRatio(Dimension::AspectRatio(unitWidth, unitHeight));
 
-    return Dimension(wallWidth, wallHeight);
+    return result;
 }
