@@ -8,7 +8,7 @@ OutputHandler::OutputHandler(std::string initialMsg) : m_initialMsg(initialMsg)
 {
     m_inputsDesc = new DescriptionMap
     {
-        {InputType::CREATE, "create - creates a new screen object."},
+        {InputType::CREATE, "create - create a new screen object."},
         {InputType::PRINT,  "print  - prints all created screen objects"},
         {InputType::HELP,   "help   - display available options."},
         {InputType::EXIT,   "exit   - close the application."}

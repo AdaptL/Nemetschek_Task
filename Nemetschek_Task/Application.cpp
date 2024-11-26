@@ -36,12 +36,10 @@ bool Application::ExecuteLogic(const std::string& input)
     InputHandler&  inputHandler  = m_console->GetInput();
     OutputHandler& outputHandler = m_console->GetOutput();
 
-    InputType inputType;
-    inputType = inputHandler.GetUserInputType(input);
+    InputType inputType = inputHandler.GetUserInputType(input);
 
     if (inputType == InputType::INVALID)
         outputHandler.ErrMsg("Please enter valid input! Type (help) for options.");
-
 
     size_t objPrintIndx = 0;
 

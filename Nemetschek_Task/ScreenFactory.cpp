@@ -4,12 +4,12 @@
 #include "FreeformStrategy.h"
 #include "DimensionRegex.h"
 
-const char* ScreenFactory::FORMAT_STR = "Format: (Value)(unitStr) x / : (Value)(unitStr)";
+const char* ScreenFactory::FORMAT_STR = "Format: <Value><unitStr> (x,:) <Value><unitStr> (Ex: 100mmx100mm)";
 
 Dimension ScreenFactory::GetValidDimensions(InputHandler& input, OutputHandler& output, const std::string& prompt)
 {
     output.CustomMsg(prompt + " " + std::string(FORMAT_STR), true);
-    output.CustomMsg("Available unit options - mm, cm, m.", true);
+    output.CustomMsg("Available unit options - mm, cm, m.",  true);
 
     auto rawDimensions = ExtractRawDimensions(input);
     while (rawDimensions.first.empty()  || 
@@ -102,7 +102,7 @@ LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output
 
 ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& input)
 {
-    RawDimensions result = RawDimensions("", "", false);
+    auto result = RawDimensions("", "", false);
 
     std::string userInput = input.GetUserInput(false,true);
 
@@ -127,7 +127,7 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
         else
             return result;
 
-        result.first = firstDimension;
+        result.first  = firstDimension;
         result.second = secondDimension;
 
         return result;

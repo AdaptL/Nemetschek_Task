@@ -89,11 +89,13 @@ unsigned Dimension::ConvertUnitValue(unsigned value, Units from, Units to)
 
     if (from != Units::MILLIMETER)
         result = ConvertToMillimetres(value, from);
+    else
+        result = value;
 
     if (to == Units::MILLIMETER)
         return result;
 
-    result = ConvertToUnit(value, to);
+    result = ConvertToUnit(result, to);
 
     return result;
 }

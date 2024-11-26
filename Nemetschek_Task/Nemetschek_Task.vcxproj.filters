@@ -114,7 +114,7 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="DimensionRegex.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
