@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <unordered_map>
+#include <regex>
 #include "Dimension.h"
 
 class InputHandler

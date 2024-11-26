@@ -136,6 +136,7 @@
     <ClCompile Include="LEDWall.cpp" />
     <ClCompile Include="OutputHandler.cpp" />
     <ClCompile Include="Nemetschek_Task.cpp" />
+    <ClCompile Include="DimensionRegex.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenFactory.cpp" />
     <ClCompile Include="Television.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="IOManager.h" />
     <ClInclude Include="LEDWall.h" />
     <ClInclude Include="OutputHandler.h" />
+    <ClInclude Include="DimensionRegex.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenFactory.h" />
     <ClInclude Include="Television.h" />

@@ -2,8 +2,9 @@
 #include "ScreenFactory.h"
 #include "AspectStrategy.h"
 #include "FreeformStrategy.h"
+#include "DimensionRegex.h"
 
-const char* ScreenFactory::FORMAT_STR = "Format: (Value)(unitStr)x / : (Value)(unitStr)";
+const char* ScreenFactory::FORMAT_STR = "Format: (Value)(unitStr) x / : (Value)(unitStr)";
 
 Television* ScreenFactory::CreateTelevision(InputHandler& input, OutputHandler& output)
 {
@@ -89,28 +90,26 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
 {
     RawDimensions result = RawDimensions("", "", false);
 
-    std::regex dim_regex(R"(^(\d+(\.\d+)?)(mm|cm|m)\s*[xX]?\s*(\d+(\.\d+)?)(mm|cm|m)$)");
-    std::regex aspect_ratio_regex(R"(^\s*(\d+)\s*[:]?\s*(\d+)\s*$)");
-
     std::string userInput = input.GetUserInput(false,true);
-
-    std::smatch match;
 
     std::string firstDimension, secondDimension;
     size_t i = 1;
 
-    if (std::regex_match(userInput, match, dim_regex))
+    std::smatch match = DimensionRegex::MatchDimensionRegex(userInput);
+
+    if (!match.empty())
     {
         size_t regexOffset = 2;
+
         if (i + regexOffset < match.size())
-            firstDimension = match[i].str() + match[i + regexOffset].str();
+            firstDimension = DimensionRegex::ExtractDimension(match, i, regexOffset);
         else
             return result;
 
         i += regexOffset + 1;
 
-        if (i + 1 < match.size())
-            secondDimension = match[i].str() + match[i + regexOffset].str();
+        if (i + regexOffset < match.size())
+            secondDimension = DimensionRegex::ExtractDimension(match, i, regexOffset);
         else
             return result;
 
@@ -119,7 +118,10 @@ ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& i
 
         return result;
     }
-    else if (std::regex_match(userInput, match, aspect_ratio_regex))
+
+    match = DimensionRegex::MatchAspectRegex(userInput);
+
+    if (!match.empty())
     {
         if (i + 1 < match.size())
         {

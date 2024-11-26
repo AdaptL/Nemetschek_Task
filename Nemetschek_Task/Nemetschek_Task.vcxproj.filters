@@ -69,6 +69,9 @@
     <ClCompile Include="Nemetschek_Task.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
+    <ClCompile Include="DimensionRegex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="IDataObject.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="DimensionRegex.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

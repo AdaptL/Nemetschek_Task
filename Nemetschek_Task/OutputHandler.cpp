@@ -103,8 +103,6 @@ void OutputHandler::Options() const
 
 void OutputHandler::PrintDataObject(const IDataObject& obj)
 {
-    std::cout << std::endl;
-
     std::cout << obj.ToString();
 
     std::cout << std::endl;

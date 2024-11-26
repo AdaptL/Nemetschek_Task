@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <regex>
 #include "InputHandler.h"
 
 const std::unordered_map<std::string, InputHandler::INPUT_TYPE> InputHandler::m_typeToStr =

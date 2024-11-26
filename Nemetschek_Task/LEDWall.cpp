@@ -37,7 +37,7 @@ void LEDWall::SetDimensions(const Dimension& maxSizeOrRatio)
 
 std::string LEDWall::ToString() const
 {
-	return "LedWall: " + Screen::ToString() + " Panel " + m_panelSize->ToString();
+	return "LedWall: " + Screen::ToString() + ", Panel " + m_panelSize->ToString();
 }
 
 LEDWall::~LEDWall()

@@ -42,6 +42,9 @@ bool Application::ExecuteLogic(const std::string& input)
     if (inputType == InputType::INVALID)
         outputHandler.ErrMsg("Please enter valid input! Type (help) for options.");
 
+
+    size_t objPrintIndx = 0;
+
     switch (inputType)
     {
     case InputType::CREATE:
@@ -52,7 +55,6 @@ bool Application::ExecuteLogic(const std::string& input)
             outputHandler.CustomMsg("Successfully created object! Type (print) to see it's properties!");
         break;
     case InputType::PRINT:
-
         if (m_objects.empty())
         {
             outputHandler.CustomMsg("No created screens yet!");
@@ -60,7 +62,11 @@ bool Application::ExecuteLogic(const std::string& input)
         }
 
         for (const auto& obj : m_objects)
+        {
+            outputHandler.CustomMsg("(" + std::to_string(objPrintIndx) + ") ", false);
             outputHandler.PrintDataObject(*obj);
+            objPrintIndx++;
+        }
         break;
     case InputType::HELP:
 
@@ -89,25 +95,28 @@ bool Application::CreateObject()
     outputHandler.CustomMsg("Enter desired screen type! Types: <LedWall>/<Television>");
     std::string input = inputHandler.GetUserInput();
 
-    while (input != televisionStr && input != ledStr)
+    while (input != televisionStr && 
+           input != ledStr        && 
+           input != "tv")
     {
         outputHandler.CustomMsg("Please enter a valid screen type! Types: <LedWall>/<Television>");
         input = inputHandler.GetUserInput();
     }
 
-    if (input == televisionStr)
-        m_objects.push_back(ScreenFactory::CreateTelevision(inputHandler,
-                                                            outputHandler));
+    Screen* newScreen = nullptr;
+
+    if (input == televisionStr || input == "tv")
+        newScreen = ScreenFactory::CreateTelevision(inputHandler, outputHandler);
     else
-        m_objects.push_back(ScreenFactory::CreateLedWall(inputHandler,
-            outputHandler));
+        newScreen = ScreenFactory::CreateLedWall(inputHandler, outputHandler);
 
-    auto it = m_objects.end() - 1;
+    if (newScreen != nullptr)
+    {
+        m_objects.push_back(newScreen);
+        return true;
+    }
 
-    if (!*it)
-        return false;
-
-    return true;
+    return false;
 }
 
 Application::~Application()
