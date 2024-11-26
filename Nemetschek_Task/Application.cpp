@@ -7,6 +7,8 @@ Application::Application() : m_console(new IOManager())
 {
     if(!m_console)
         throw std::runtime_error("Failed to initialize IOManager!");
+
+    m_objects = std::vector<Screen*>();
 }
 
 void Application::Run()
