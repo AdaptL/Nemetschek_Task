@@ -33,17 +33,16 @@ void LEDWall::SetDimensions(const Dimension& maxSizeOrRatio)
 
 	Dimension temp = m_strategy->GenerateWallDimension(*m_panelSize, maxSizeOrRatio);
 	Screen::SetDimensions(temp);
-	columns = temp.GetHeight();
-	rows    = temp.GetWidth();
+	columns = temp.GetWidth();
+	rows    = temp.GetHeight();
 }
 
 std::string LEDWall::ToString() const
 {
 	std::string screenStr      = "LedWall: " + Screen::ToString();
 	std::string panelStr       = ", Panel " + m_panelSize->ToString();
-	std::string columnsRowsStr = " ( Rows:" + std::to_string(rows) + 
-		                         " , " + "columns:" + std::to_string(columns) + " )";
-
+	std::string columnsRowsStr = " ( columns:" + std::to_string(columns) +
+							     " Rows:" + std::to_string(rows) + " )";
 
 	return screenStr + columnsRowsStr + panelStr;
 }
