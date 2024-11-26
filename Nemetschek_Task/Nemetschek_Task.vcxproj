@@ -127,7 +127,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AspectStrategy.cpp" />
+    <ClCompile Include="Dimension.cpp" />
+    <ClCompile Include="FreeformStrategy.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="IOManager.cpp" />
+    <ClCompile Include="LEDWall.cpp" />
+    <ClCompile Include="OutputHandler.cpp" />
     <ClCompile Include="Nemetschek_Task.cpp" />
+    <ClCompile Include="DimensionRegex.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ScreenFactory.cpp" />
+    <ClCompile Include="Television.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="AspectStrategy.h" />
+    <ClInclude Include="Dimension.h" />
+    <ClInclude Include="FreeformStrategy.h" />
+    <ClInclude Include="GenerationStrategy.h" />
+    <ClInclude Include="IDataObject.h" />
+    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="IOManager.h" />
+    <ClInclude Include="LEDWall.h" />
+    <ClInclude Include="OutputHandler.h" />
+    <ClInclude Include="DimensionRegex.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenFactory.h" />
+    <ClInclude Include="Television.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

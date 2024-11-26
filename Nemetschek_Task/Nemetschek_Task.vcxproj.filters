@@ -13,10 +13,108 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{da2cc73b-f724-4801-a70b-cf779dd38bda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\IO">
+      <UniqueIdentifier>{0cdfa394-e12c-41bf-8b31-73e47f478488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Screen">
+      <UniqueIdentifier>{86020163-f23a-4fa5-b931-30ad8188a811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Screen\Strategies">
+      <UniqueIdentifier>{ab0b6775-423a-4c77-aef6-de734b8c5c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{b32af0e1-2306-4239-af85-b17b1a8d12bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{af9366eb-a590-4ae1-a287-0f8678bf21e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Nemetschek_Task.cpp">
+    <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OutputHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IOManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dimension.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Television.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LEDWall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeformStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AspectStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Nemetschek_Task.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="DimensionRegex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IOManager.h">
+      <Filter>Header Files\Core\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputHandler.h">
+      <Filter>Header Files\Core\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Header Files\Core\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenFactory.h">
+      <Filter>Header Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="LEDWall.h">
+      <Filter>Header Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Television.h">
+      <Filter>Header Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="GenerationStrategy.h">
+      <Filter>Header Files\Screen\Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="AspectStrategy.h">
+      <Filter>Header Files\Screen\Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeformStrategy.h">
+      <Filter>Header Files\Screen\Strategies</Filter>
+    </ClInclude>
+    <ClInclude Include="Dimension.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="IDataObject.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="DimensionRegex.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
