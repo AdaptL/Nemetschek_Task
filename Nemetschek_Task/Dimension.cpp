@@ -250,7 +250,7 @@ unsigned Dimension::ConvertToMillimetres(unsigned value, Units unit)
     }
 }
 
-unsigned Dimension::GCD(unsigned a, unsigned b) const
+unsigned Dimension::GCD(unsigned a, unsigned b)
 {
     while (b != 0)
     {
@@ -268,4 +268,9 @@ Dimension::~Dimension()
         delete m_ratio;
 
     m_ratio = nullptr;
+}
+
+unsigned Dimension::AspectRatio::CalculateAspectGCD(unsigned a, unsigned b)
+{
+    return Dimension::GCD(a,b);
 }

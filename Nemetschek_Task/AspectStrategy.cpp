@@ -22,13 +22,25 @@ Dimension AspectStrategy::GenerateWallDimension(const Dimension& panelSize,
         unitWidth  = aspectRatio.GetWidth();
         unitHeight = aspectRatio.GetHeight();
     }
-       
-    unsigned wallWidth  = panelSize.GetWidth()  * unitWidth;
-    unsigned wallHeight = panelSize.GetHeight() * unitHeight;
+
+    unsigned numerator = unitWidth;
+    unsigned denominator = unitHeight;
+
+    unsigned numenatorMultiple = numerator * panelSize.GetHeight();
+    unsigned denominatorMultiple = denominator * panelSize.GetWidth();
+
+    unsigned gcd = Dimension::AspectRatio::CalculateAspectGCD(numenatorMultiple,
+                                                              denominatorMultiple);
+
+    double columns = numenatorMultiple / gcd;
+    double rows = denominatorMultiple / gcd;
+
+    unsigned wallWidth  = round(columns) * panelSize.GetWidth();
+    unsigned wallHeight = round(rows) * panelSize.GetHeight();
 
     result = Dimension(wallWidth, wallHeight);
 
-    result.SetAspectRatio(Dimension::AspectRatio(unitWidth, unitHeight));
+    result.SetAspectRatio(Dimension::AspectRatio(columns, rows));
 
     return result;
 }

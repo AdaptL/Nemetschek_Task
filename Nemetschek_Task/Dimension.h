@@ -14,6 +14,8 @@ public:
 	{
 		AspectRatio(unsigned cols, unsigned rows) : columns(cols), rows(rows) {}
 
+		static unsigned CalculateAspectGCD(unsigned a, unsigned b);
+
 		unsigned columns;
 		unsigned rows;   
 	};
@@ -53,7 +55,7 @@ private:
 	static unsigned ConvertToMillimetres(unsigned value, Units unit);
 	static unsigned ConvertToUnit(unsigned value, Units unit);
 
-	unsigned GCD(unsigned a, unsigned b) const;
+	static unsigned GCD(unsigned a, unsigned b);
 
 	unsigned   m_width;
 	unsigned   m_height;
