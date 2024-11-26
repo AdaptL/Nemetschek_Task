@@ -4,11 +4,23 @@ IOManager::IOManager()
 {
     m_input  = new InputHandler();
     m_output = new OutputHandler();
+
+    if (!m_input)
+        throw std::runtime_error("Failed to initialize input handler!");
+
+    if (!m_output)
+        throw std::runtime_error("Failed to initialize output handler!");
 }
 
 IOManager::IOManager(const InputHandler& input, const OutputHandler& output)
     : m_input(new InputHandler(input)), m_output(new OutputHandler(output))
-{}
+{
+    if (!m_input)
+        throw std::runtime_error("Failed to initialize input handler!");
+
+    if (!m_output)
+        throw std::runtime_error("Failed to initialize output handler!");
+}
 
 InputHandler& IOManager::GetInput()
 {

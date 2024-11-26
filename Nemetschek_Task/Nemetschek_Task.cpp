@@ -33,7 +33,6 @@ int main()
 
     DeleteApplication(app);
 
-
     return EXIT_SUCCESS;
 }
 

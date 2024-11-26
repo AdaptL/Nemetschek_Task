@@ -16,11 +16,11 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
     auto parseDimension = [](const std::string& input) 
         -> std::pair<unsigned, Dimension::Units>
     {
-        auto result = std::make_pair(0, Dimension::Units::MILLIMETER);
+        auto result = std::make_pair(NULL, Dimension::Units::MILLIMETER);
         std::string valuePart;
         std::string unitPart;
 
-        size_t i = 0;
+        size_t i = NULL;
 
         while (i < input.size() && 
               (std::isdigit(input[i]) || input[i] == '.' || input[i] == ','))
@@ -42,6 +42,10 @@ Dimension InputHandler::GetDimensionsFromInput(std::string width, std::string he
             throw std::invalid_argument("Invalid input: missing numeric value.");
 
         result.first = round(std::stod(valuePart));
+
+        if (result.first < 0)
+            throw std::invalid_argument("Invalid input: failed conversion.");
+
 
         if (unitPart == MILLIMETER_STR)
             result.second = Dimension::Units::MILLIMETER;

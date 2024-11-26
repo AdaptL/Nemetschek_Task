@@ -21,6 +21,10 @@ public:
 	static LEDWall*    CreateLedWall(InputHandler& input, OutputHandler& output);
 private:
 	static RawDimensions ExtractRawDimensions(InputHandler& input);
+
+	static Dimension     GetValidDimensions(InputHandler& input, OutputHandler& output,
+		                                    const std::string& prompt);
+
 	static const char* FORMAT_STR;
 };
 

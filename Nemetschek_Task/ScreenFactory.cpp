@@ -6,85 +6,99 @@
 
 const char* ScreenFactory::FORMAT_STR = "Format: (Value)(unitStr) x / : (Value)(unitStr)";
 
-Television* ScreenFactory::CreateTelevision(InputHandler& input, OutputHandler& output)
+Dimension ScreenFactory::GetValidDimensions(InputHandler& input, OutputHandler& output, const std::string& prompt)
 {
-    output.CustomMsg("Enter desired dimensions. " + std::string(FORMAT_STR), true);
-    output.CustomMsg("Available unit options - mm, cm, m. Default - mm",    true);
+    output.CustomMsg(prompt + " " + std::string(FORMAT_STR), true);
+    output.CustomMsg("Available unit options - mm, cm, m. Default - mm", true);
 
     auto rawDimensions = ExtractRawDimensions(input);
-    while (rawDimensions.first.empty() || rawDimensions.second.empty() || rawDimensions.isAspect)
+    while (rawDimensions.first.empty()  || 
+           rawDimensions.second.empty() || 
+           rawDimensions.isAspect)
     {
         output.CustomMsg("Please enter valid dimensions " + std::string(FORMAT_STR), true);
         rawDimensions = ExtractRawDimensions(input);
     }
 
-    Dimension   dimensions = input.GetDimensionsFromInput(rawDimensions.first, rawDimensions.second);
-    if (dimensions.isAspect())
+    Dimension dimensions;
+    try
     {
-        output.ErrMsg("A screen of type Television cannot be created with aspect ratio dimensions!");
-        return nullptr;
+        dimensions = input.GetDimensionsFromInput(rawDimensions.first, rawDimensions.second);
+    }
+    catch (...)
+    {
+        throw; 
     }
 
-    Television* television = new Television(dimensions);
+    if (dimensions.isAspect())
+    {
+        throw std::invalid_argument("Cannot create object with aspect ratio dimensions!");
+    }
 
-    if (!television)
-        throw std::runtime_error("Failed to allocate television object!");
+    return dimensions;
+}
 
-    return television;
+Television* ScreenFactory::CreateTelevision(InputHandler& input, OutputHandler& output)
+{
+    try
+    {
+        Dimension dimensions = GetValidDimensions(input, output, "Enter desired dimensions.");
+
+        auto television = new Television(dimensions);
+        return television;  
+    }
+    catch (const std::exception& e)
+    {
+        output.CustomMsg(e.what());
+        return nullptr;
+    }
+    catch (...)
+    {
+        return nullptr;
+    }
 }
 
 LEDWall* ScreenFactory::CreateLedWall(InputHandler& input, OutputHandler& output)
 {
-    output.CustomMsg("Enter panel dimensions. " + std::string(FORMAT_STR), true);
-    output.CustomMsg("or (Value):(Value)", true);
-         
-    auto rawPanelDimensions = ExtractRawDimensions(input);
-    while (rawPanelDimensions.first.empty() || rawPanelDimensions.second.empty() ||
-           rawPanelDimensions.isAspect)
+    try
     {
-        output.CustomMsg("Please enter valid panel dimensions " + std::string(FORMAT_STR), true);
-        rawPanelDimensions = ExtractRawDimensions(input);
-    }
+        Dimension panelDimensions = GetValidDimensions(input, output, "Enter panel dimensions.");
 
-    Dimension panelDimensions = input.GetDimensionsFromInput(rawPanelDimensions.first,
-                                rawPanelDimensions.second);
-    if (panelDimensions.isAspect())
+        output.CustomMsg("Enter desired max dimensions. " + std::string(FORMAT_STR), true);
+        output.CustomMsg("or (Value):(Value) for aspect ratio", true);
+
+        auto rawMaxDimensions = ExtractRawDimensions(input);
+        while (rawMaxDimensions.first.empty() || rawMaxDimensions.second.empty())
+        {
+            output.CustomMsg("Please enter valid dimensions " + std::string(FORMAT_STR), true);
+            rawMaxDimensions = ExtractRawDimensions(input);
+        }
+
+        Dimension maxDimensions = input.GetDimensionsFromInput(rawMaxDimensions.first, rawMaxDimensions.second);
+
+        LEDWall* ledWall;
+        if (rawMaxDimensions.isAspect)
+        {
+            Dimension aspectDimension(Dimension::AspectRatio(maxDimensions.GetWidth(),
+                maxDimensions.GetHeight()));
+            ledWall = new LEDWall(panelDimensions, maxDimensions, new AspectStrategy());
+        }
+        else
+            ledWall = new LEDWall(panelDimensions, maxDimensions, new FreeformStrategy());
+
+        return ledWall;  
+    }
+    catch (const std::exception& e)
     {
-        output.ErrMsg("A panel cannot be created with aspect ratio dimensions!");
+        output.CustomMsg(e.what());
         return nullptr;
     }
-
-    output.CustomMsg("Enter desired max dimensions. " + std::string(FORMAT_STR), true);
-    output.CustomMsg("or (Value):(Value)", true);
-
-    auto rawDimensions = ExtractRawDimensions(input);
-    while (rawDimensions.first.empty() || rawDimensions.second.empty())
+    catch (...)
     {
-        output.CustomMsg("Please enter valid dimensions " + std::string(FORMAT_STR), true);
-        rawDimensions = ExtractRawDimensions(input);
+        return nullptr;
     }
-
-    Dimension dimensions = input.GetDimensionsFromInput(rawDimensions.first,
-                                                        rawDimensions.second);
-
-    LEDWall* ledWall = nullptr;
-
-    if (rawDimensions.isAspect)
-    {
-        Dimension aspectDimension = Dimension(Dimension::AspectRatio(dimensions.GetWidth(), dimensions.GetHeight()));
-
-        ledWall = new LEDWall(panelDimensions,
-                              aspectDimension,
-                              new AspectStrategy());
-    }
-    else
-        ledWall = new LEDWall(panelDimensions ,dimensions, new FreeformStrategy());
-
-    if (!ledWall)
-        throw std::runtime_error("Failed to allocate led wall object!");
-
-    return ledWall;
 }
+
 
 ScreenFactory::RawDimensions ScreenFactory::ExtractRawDimensions(InputHandler& input)
 {

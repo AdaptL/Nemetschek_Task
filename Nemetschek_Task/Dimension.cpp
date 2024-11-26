@@ -12,6 +12,7 @@ Dimension::Dimension(unsigned width, unsigned height)
     : Dimension(width, height, Units::MILLIMETER) {}
 
 Dimension::Dimension(unsigned width, unsigned height, Units unitType)
+    : m_ratio(nullptr)
 {
     SetWidth(width, unitType);
     SetHeight(height, unitType);
@@ -55,35 +56,36 @@ Dimension::Dimension(Dimension&& other) noexcept
     m_currentUnit(other.m_currentUnit),
     m_ratio(other.m_ratio)
 {
-    other.m_width = 0;
+    other.m_width  = 0;
     other.m_height = 0;
     other.m_currentUnit = Units::MILLIMETER;
-    other.m_ratio = nullptr;
+    other.m_ratio  = nullptr;
 }
 
 Dimension& Dimension::operator=(Dimension&& other) noexcept
 {
     if (this == &other)
-        return *this;  
+        return *this; 
 
-    delete this->m_ratio;
+    if(this->m_ratio != nullptr)
+        delete this->m_ratio;
 
-    m_width = other.m_width;
+    m_width  = other.m_width;
     m_height = other.m_height;
     m_currentUnit = other.m_currentUnit;
-    m_ratio = other.m_ratio;
+    m_ratio  = other.m_ratio;
 
-    other.m_width = 0;
+    other.m_width  = 0;
     other.m_height = 0;
     other.m_currentUnit = Units::MILLIMETER;
-    other.m_ratio = nullptr;
+    other.m_ratio  = nullptr;
 
     return *this;
 }
 
 bool Dimension::isAspect() const
 {
-    if (m_ratio)
+    if (m_ratio != nullptr)
         return true;
 
     return false;
@@ -91,7 +93,7 @@ bool Dimension::isAspect() const
 
 unsigned Dimension::GetWidth() const
 {
-    if (m_ratio)
+    if (m_ratio != nullptr)
         return m_ratio->width;
 
     return ConvertToUnit(m_width, m_currentUnit);
@@ -99,7 +101,7 @@ unsigned Dimension::GetWidth() const
 
 unsigned Dimension::GetHeight() const
 {
-    if (m_ratio)
+    if (m_ratio != nullptr)
         return m_ratio->height;
 
     return ConvertToUnit(m_height, m_currentUnit);
@@ -107,7 +109,7 @@ unsigned Dimension::GetHeight() const
 
 unsigned Dimension::GetWidth(Units unit) const
 {
-    if (m_ratio)
+    if (m_ratio != nullptr)
         return m_ratio->width;
 
     return ConvertToUnit(m_width, unit);
@@ -115,7 +117,7 @@ unsigned Dimension::GetWidth(Units unit) const
 
 unsigned Dimension::GetHeight(Units unit) const
 {
-    if (m_ratio)
+    if (m_ratio != nullptr)
         return m_ratio->height;
 
     return ConvertToUnit(m_height, unit);
@@ -140,18 +142,18 @@ unsigned Dimension::ConvertHeightToAspectRatio() const
 
 void Dimension::SetWidth(unsigned width, Units unit)
 {
-    if (m_ratio)
+    if (m_ratio != nullptr) 
     {
         m_ratio->width = width;
         return;
     }
-
+    
     m_width = ConvertToMillimetres(width, unit);
 }
 
 void Dimension::SetHeight(unsigned height, Units unit)
 {
-    if (m_ratio)
+    if (m_ratio != nullptr)
     {
         m_ratio->height = height;
         return;
@@ -166,7 +168,7 @@ void Dimension::SetUnits(Units unit)
 
 void Dimension::SetAspectRatio(const AspectRatio& ratio)
 {
-    if (!this->m_ratio)
+    if (this->m_ratio == nullptr)
     {
         this->m_ratio = new AspectRatio(ratio);
         if (!this->m_ratio)

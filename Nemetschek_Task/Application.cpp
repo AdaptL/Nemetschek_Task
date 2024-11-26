@@ -67,6 +67,7 @@ bool Application::ExecuteLogic(const std::string& input)
             outputHandler.PrintDataObject(*obj);
             objPrintIndx++;
         }
+        std::cout << std::endl;
         break;
     case InputType::HELP:
 

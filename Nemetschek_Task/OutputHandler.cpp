@@ -13,19 +13,23 @@ OutputHandler::OutputHandler(std::string initialMsg) : m_initialMsg(initialMsg)
         {InputType::HELP,   "help   - display available options."},
         {InputType::EXIT,   "exit   - close the application."}
     };
+
+    if (!m_inputsDesc)
+        throw std::runtime_error("Failed to initialize inputs description!");
 }
 
 OutputHandler::OutputHandler(const OutputHandler& other)
     : m_initialMsg(other.m_initialMsg)
 {
     this->m_inputsDesc = new DescriptionMap(*other.m_inputsDesc);
+
+    if (!m_inputsDesc)
+        throw std::runtime_error("Failed to initialize inputs description!");
 }
 
 OutputHandler::OutputHandler(OutputHandler&& other) noexcept
-    : m_initialMsg(std::move(other.m_initialMsg)), m_inputsDesc(other.m_inputsDesc)
-{
-    other.m_inputsDesc = nullptr;
-}
+    : m_initialMsg(std::move(other.m_initialMsg)), m_inputsDesc(std::exchange(other.m_inputsDesc, nullptr))
+{}
 
 OutputHandler& OutputHandler::operator=(const OutputHandler& other)
 {
@@ -33,8 +37,12 @@ OutputHandler& OutputHandler::operator=(const OutputHandler& other)
     {
         this->m_initialMsg = other.m_initialMsg;
 
-        delete this->m_inputsDesc;
+        if(this->m_inputsDesc != nullptr)
+            delete this->m_inputsDesc;
+
         this->m_inputsDesc = new DescriptionMap(*other.m_inputsDesc);
+        if (!m_inputsDesc)
+            throw std::runtime_error("Failed to initialize inputs description!");
     }
     return *this;
 }
@@ -43,12 +51,16 @@ OutputHandler& OutputHandler::operator=(OutputHandler&& other) noexcept
 {
     if (this != &other) 
     {
-        delete m_inputsDesc;
+        if(m_inputsDesc != nullptr)
+            delete m_inputsDesc;
 
         m_initialMsg = std::move(other.m_initialMsg);
         m_inputsDesc = other.m_inputsDesc;
 
         other.m_inputsDesc = nullptr;
+
+        if (!m_inputsDesc)
+            throw std::runtime_error("Failed to initialize inputs description!");
     }
     return *this;
 }
