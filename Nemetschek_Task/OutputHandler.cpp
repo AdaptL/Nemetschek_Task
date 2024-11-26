@@ -58,9 +58,6 @@ OutputHandler& OutputHandler::operator=(OutputHandler&& other) noexcept
         m_inputsDesc = other.m_inputsDesc;
 
         other.m_inputsDesc = nullptr;
-
-        if (!m_inputsDesc)
-            throw std::runtime_error("Failed to initialize inputs description!");
     }
     return *this;
 }
