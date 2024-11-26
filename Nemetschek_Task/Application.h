@@ -18,10 +18,10 @@ public:
 
 	~Application();
 private:
-	std::vector<Screen*> m_objects;
-	IOManager*           m_console;
-
 	bool ExecuteLogic(const std::string& input);
 	bool CreateObject();
+
+	std::vector<Screen*> m_objects;
+	IOManager*           m_console;
 };
 
