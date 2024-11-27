@@ -12,7 +12,10 @@ int main()
     Application* app = InitializeApplication();
 
     if (!app)
+    {
+        std::cerr << "Failed to initialize application!" << std::endl;
         return EXIT_FAILURE;
+    }
 
     try
     {
