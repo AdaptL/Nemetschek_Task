@@ -44,7 +44,9 @@ Dimension& Dimension::operator=(const Dimension& other)
     this->m_height = other.m_height;
     this->m_currentUnit = other.m_currentUnit;
 
-    delete this->m_ratio;
+    if(this->m_ratio != nullptr)
+        delete this->m_ratio;
+
     this->m_ratio = other.m_ratio ? new AspectRatio(*other.m_ratio) : nullptr;
 
     return *this;
