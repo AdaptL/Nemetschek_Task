@@ -15,6 +15,68 @@ LEDWall::LEDWall(const Dimension& panelSize, const Dimension& maxSizeOrRatio, Ge
 	this->SetDimensions(maxSizeOrRatio);
 }
 
+LEDWall::LEDWall(const LEDWall& other)
+    : Screen(other),
+    m_panelSize(other.m_panelSize ? new Dimension(*other.m_panelSize) : nullptr),
+    rows(other.rows),
+    columns(other.columns),
+    m_strategy(other.m_strategy ? other.m_strategy->Clone() : nullptr)
+{}
+
+LEDWall::LEDWall(LEDWall&& other) noexcept
+    : Screen(std::move(other)),
+    m_panelSize(other.m_panelSize),
+    rows(other.rows),
+    columns(other.columns),
+    m_strategy(other.m_strategy)
+{
+    other.m_panelSize = nullptr;
+    other.m_strategy = nullptr;
+}
+
+LEDWall& LEDWall::operator=(const LEDWall& other)
+{
+    if (this != &other)
+    {
+        Screen::operator=(other);
+        
+        if(m_panelSize != nullptr)
+            delete m_panelSize;
+        
+        if(m_strategy != nullptr)
+            delete m_strategy;
+
+        m_panelSize = other.m_panelSize ? new Dimension(*other.m_panelSize) : nullptr;
+        m_strategy = other.m_strategy ? other.m_strategy->Clone() : nullptr;
+
+        rows = other.rows;
+        columns = other.columns;
+    }
+    return *this;
+}
+
+LEDWall& LEDWall::operator=(LEDWall&& other) noexcept
+{
+    if (this != &other)
+    {
+        Screen::operator=(std::move(other));
+        
+        if(m_panelSize != nullptr)
+            delete m_panelSize;
+        if(m_strategy != nullptr)
+            delete m_strategy;
+
+        m_panelSize = other.m_panelSize;
+        m_strategy = other.m_strategy;
+        rows = other.rows;
+        columns = other.columns;
+
+        other.m_panelSize = nullptr;
+        other.m_strategy = nullptr;
+    }
+    return *this;
+}
+
 void LEDWall::SetStrategy(GenerationStrategy* strategy)
 {
 	if (m_strategy)

@@ -8,6 +8,11 @@ public:
     LEDWall(const Dimension& panelSize,const Dimension& maxSizeOrRatio, 
             GenerationStrategy* strategy);
 
+    LEDWall(const LEDWall& other);
+    LEDWall(LEDWall&& other) noexcept;
+    LEDWall& operator=(const LEDWall& other);
+    LEDWall& operator=(LEDWall&& other) noexcept;
+
     void SetStrategy(GenerationStrategy* strategy);
 
     void SetDimensions(const Dimension& maxSizeOrRatio) override;
