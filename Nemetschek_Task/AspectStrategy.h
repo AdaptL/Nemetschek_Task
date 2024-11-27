@@ -9,6 +9,8 @@ public:
 	Dimension GenerateWallDimension(const Dimension& panelSize,
 		                            const Dimension& aspectRatio) const override;
 
+	virtual GenerationStrategy* Clone() const override;
+
 	virtual ~AspectStrategy() = default;
 };
 

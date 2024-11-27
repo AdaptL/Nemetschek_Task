@@ -44,3 +44,8 @@ Dimension AspectStrategy::GenerateWallDimension(const Dimension& panelSize,
 
     return result;
 }
+
+GenerationStrategy* AspectStrategy::Clone() const
+{
+    return new AspectStrategy(*this);
+}

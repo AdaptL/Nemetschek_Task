@@ -16,3 +16,8 @@ Dimension FreeformStrategy::GenerateWallDimension(const Dimension& panelSize,
 
     return result;
 }
+
+GenerationStrategy* FreeformStrategy::Clone() const
+{
+    return new FreeformStrategy(*this);
+}
