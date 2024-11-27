@@ -52,8 +52,9 @@ LEDWall::~LEDWall()
 	if (m_strategy != nullptr)
 		delete m_strategy;
 
-	if (m_dimensions != nullptr)
+	if (m_panelSize != nullptr)
 		delete m_dimensions;
 
 	m_strategy = nullptr;
+	m_panelSize = nullptr;
 }
